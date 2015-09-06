@@ -1,0 +1,14 @@
+---
+
+- name: Create cache dir
+  file: path={{ CacheDir }} state=directory
+
+- name: Create log dir
+  file: path={{ LogDir }} state=directory
+
+- name: Run docker
+  command: "docker run --name apt-cacher-ng -d --restart=always --publish 3142:3142 --volume {{ CacheDir }}:/var/cache/apt-cacher-ng --volume {{ LogDir }}:/var/log/apt-cacher-ng  sameersbn/apt-cacher-ng:latest"
+
+- name: Setting proxy
+  lineinfile: dest=/etc/apt/apt.conf state=present create=yes
+       line='Acquire::http { Proxy "http://127.0.0.1:3142"; };'

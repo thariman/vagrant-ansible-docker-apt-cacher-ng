@@ -1,0 +1,34 @@
+---
+- hosts: all
+  sudo: true
+
+  vars:
+    #RootDir: /vagrant/apt-cacher-ng
+    #CacheDir: "{{ RootDir }}/cache"
+    CacheDir: /vagrant/apt-cacher-ng/cache
+    LogDir: /vagrant/apt-cacher-ng/log
+
+  pre_tasks:
+    - name: update source to local mirror
+      replace: dest=/etc/apt/sources.list 
+         regexp='http://http.debian.net/debian'
+         replace='http://buaya.klas.or.id/debian'
+
+         #replace='http://kambing.ui.ac.id/debian'
+    - name: update apt cache
+      apt: update_cache=yes
+
+  roles:
+    - install-docker
+#    - apt-cacher-ng
+    - docker-apt-cacher-ng
+
+  tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+
+    - name: install vim
+      apt: name=vim state=present
+
+    - name: install htop
+      apt: name=htop state=present

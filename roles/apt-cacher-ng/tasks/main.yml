@@ -1,0 +1,31 @@
+---
+
+- name: Install apt-cacher-ng
+  apt: name=apt-cacher-ng state=present
+
+- name: Create cache dir 
+  file: path={{ CacheDir }} state=directory
+
+- name: Create log dir
+  file: path={{ LogDir }} state=directory
+
+- name: copy acng.conf 
+  template:
+     src=acng.conf.j2
+     dest=/etc/apt-cacher-ng/acng.conf
+  notify:
+     - reload acng 
+
+- name: copy acng.conf 
+  template:
+     src=zz_debconf.conf.j2
+     dest=/etc/apt-cacher-ng/zz_debconf.conf
+  notify:
+     - reload acng 
+
+- name: Setting proxy
+  lineinfile: dest=/etc/apt/apt.conf state=present create=yes 
+       line='Acquire::http { Proxy "http://127.0.0.1:3142"; };'
+
+- name: reload acng # to make sure that the new config is inplace
+  service: name=apt-cacher-ng state=restarted
