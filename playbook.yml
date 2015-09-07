@@ -3,8 +3,6 @@
   sudo: true
 
   vars:
-    #RootDir: /vagrant/apt-cacher-ng
-    #CacheDir: "{{ RootDir }}/cache"
     CacheDir: /vagrant/apt-cacher-ng/cache
     LogDir: /vagrant/apt-cacher-ng/log
 
@@ -12,11 +10,21 @@
     - name: update source to local mirror
       replace: dest=/etc/apt/sources.list 
          regexp='http://http.debian.net/debian'
-         replace='http://buaya.klas.or.id/debian'
+         replace='http://kambing.ui.ac.id/debian'
 
-         #replace='http://kambing.ui.ac.id/debian'
+         #replace='http://buaya.klas.or.id/debian'
     - name: update apt cache
       apt: update_cache=yes
+
+#    - name: Print interface
+#      debug:
+#        msg: "{{ item }}"
+#      with_items: ansible_interfaces
+
+#    - name: Print ipv4 
+#      debug:
+#        msg: "{{ item }}"
+#      with_items: ansible_all_ipv4_addresses
 
   roles:
     - install-docker

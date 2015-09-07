@@ -6,9 +6,18 @@
 - name: Create log dir
   file: path={{ LogDir }} state=directory
 
-- name: Run docker
-  command: "docker run --name apt-cacher-ng -d --restart=always --publish 3142:3142 --volume {{ CacheDir }}:/var/cache/apt-cacher-ng --volume {{ LogDir }}:/var/log/apt-cacher-ng  sameersbn/apt-cacher-ng:latest"
+- name: run docker apt-cacher-ng
+  docker:
+    name: apt-cacher-ng
+    image: sameersbn/apt-cacher-ng:latest
+    restart_policy: always
+    state: reloaded
+    ports:
+    - 3142:3142
+    volumes: 
+    - "{{ CacheDir }}:/var/cache/apt-cacher-ng"
+    - "{{ LogDir }}:/var/log/apt-cacher-ng"
 
-- name: Setting proxy
+- name: Setting host to use proxy
   lineinfile: dest=/etc/apt/apt.conf state=present create=yes
        line='Acquire::http { Proxy "http://127.0.0.1:3142"; };'
