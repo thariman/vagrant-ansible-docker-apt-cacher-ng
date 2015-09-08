@@ -44,6 +44,9 @@
 - name: Install pip
   shell: python /vagrant/get-pip.py
 
+- name: delete get-pip.py
+  file: path=/vagrant/get-pip.py state=absent
+
 - name: install docker-py
   pip:
     name: docker-py
