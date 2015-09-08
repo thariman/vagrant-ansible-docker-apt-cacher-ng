@@ -16,19 +16,19 @@
     - name: update apt cache
       apt: update_cache=yes
 
-#    - name: Print interface
-#      debug:
-#        msg: "{{ item }}"
-#      with_items: ansible_interfaces
+    - name: Print interface
+      debug:
+        msg: "{{ item }}"
+      with_items: ansible_interfaces
 
-#    - name: Print ipv4 
-#      debug:
-#        msg: "{{ item }}"
-#      with_items: ansible_all_ipv4_addresses
+    - name: Print ipv4 
+      debug:
+        msg: "{{ item }}"
+      with_items: ansible_all_ipv4_addresses
 
   roles:
     - install-docker
-#    - apt-cacher-ng
+#    - apt-cacher-ng  # plain apt-cacher-ng 
     - docker-apt-cacher-ng
 
   tasks:
