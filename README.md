@@ -14,4 +14,5 @@ to run:
 git clone https://github.com/thariman/vagrant-ansible-docker-apt-cacher-ng.git
 
 cd vagrant-ansible-docker-apt-cacher-ng
+
 vagrant up --provider vmware_fusion or virtualbox
