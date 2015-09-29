@@ -1,3 +1,4 @@
+#! /bin/bash
 echo "vagrant" > hosts.txt
 vagrant ssh-config | egrep "User |HostName|Port|IdentityFile" >> hosts.txt
 sed -i '' "s#User #ansible_ssh_user=#g" hosts.txt
